@@ -1,10 +1,13 @@
 import agh.ics.oop.Animal;
+import agh.ics.oop.MoveDirection;
 import agh.ics.oop.OptionsParser;
+import agh.ics.oop.Vector2d;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AnimalIntegrationTests {
     public String[] run(String[] args) {
@@ -30,6 +33,26 @@ public class AnimalIntegrationTests {
                 new String[]{"(2,2) Wschod", "(2,2) Poludnie", "(2,2) Wschod", "(2,2) Polnoc"},
                 run(new String[]{"r", "right", "l", "left"})
         );
+    }
+
+    @Test
+    void position(){
+        var animal = new Animal();
+        assertTrue(animal.isAt(new Vector2d(2,2)));
+        animal.move(MoveDirection.FORWARD);
+        assertTrue(animal.isAt(new Vector2d(2,3)));
+        animal.move(MoveDirection.RIGHT);
+        assertTrue(animal.isAt(new Vector2d(2,3)));
+        animal.move(MoveDirection.RIGHT);
+        assertTrue(animal.isAt(new Vector2d(2,3)));
+        animal.move(MoveDirection.LEFT);
+        assertTrue(animal.isAt(new Vector2d(2,3)));
+        animal.move(MoveDirection.BACKWARD);
+        assertTrue(animal.isAt(new Vector2d(1,3)));
+        animal.move(MoveDirection.BACKWARD);
+        assertTrue(animal.isAt(new Vector2d(0,3)));
+        animal.move(MoveDirection.FORWARD);
+        assertTrue(animal.isAt(new Vector2d(1,3)));
     }
 
     @Test
