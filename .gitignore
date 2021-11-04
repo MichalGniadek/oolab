@@ -12,3 +12,6 @@ gradle-app.setting
 .gradletasknamecache
 
 .idea
+
+gradlew
+gradlew.bat
