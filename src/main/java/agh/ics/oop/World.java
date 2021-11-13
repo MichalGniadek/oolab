@@ -1,15 +1,12 @@
 package agh.ics.oop;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 public class World {
     public static void main(String[] args) {
-        var animal = new Animal();
         var directions = OptionsParser.parse(args);
-        for(var dir : directions){
-            animal.move(dir);
-            System.out.print(animal);
-        }
+        var map = new RectangularMap(10, 5);
+        var positions = new Vector2d[]{new Vector2d(2, 2), new Vector2d(3, 4)};
+        var engine = new SimulationEngine(directions, map, positions);
+        engine.run();
+        System.out.println(map);
     }
 }

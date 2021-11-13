@@ -11,43 +11,41 @@ public class Vector2d {
         this.y = y;
     }
 
-    public String toString(){
-       return  "(" + Integer.toString(this.x) + "," + Integer.toString(this.y) + ")";
+    public String toString() { return "(" + x + "," + y + ")"; }
+
+    public boolean precedes(Vector2d other) {
+        return x <= other.x && y <= other.y;
     }
 
-    public boolean precedes(Vector2d other){
-        return this.x <= other.x && this.y <= other.y;
-    }
-
-    public boolean follows(Vector2d other){
+    public boolean follows(Vector2d other) {
         return other.precedes(this);
     }
 
-    public Vector2d upperRight(Vector2d other){
-        return new Vector2d(Integer.max(this.x, other.x), Integer.max(this.y, other.y));
+    public Vector2d upperRight(Vector2d other) {
+        return new Vector2d(Integer.max(x, other.x), Integer.max(y, other.y));
     }
 
-    public Vector2d lowerLeft(Vector2d other){
-        return new Vector2d(Integer.min(this.x, other.x), Integer.min(this.y, other.y));
+    public Vector2d lowerLeft(Vector2d other) {
+        return new Vector2d(Integer.min(x, other.x), Integer.min(y, other.y));
     }
 
-    public Vector2d add(Vector2d other){
-        return  new Vector2d(this.x + other.x, this.y + other.y);
+    public Vector2d add(Vector2d other) {
+        return new Vector2d(x + other.x, y + other.y);
     }
 
-    public Vector2d substract(Vector2d other){
-        return  new Vector2d(this.x - other.x, this.y - other.y);
+    public Vector2d substract(Vector2d other) {
+        return new Vector2d(x - other.x, y - other.y);
     }
 
-    public Vector2d opposite(){
-        return new Vector2d(-this.x, -this.y);
+    public Vector2d opposite() {
+        return new Vector2d(-x, -y);
     }
 
     public boolean equals(Object other) {
         if (this == other) return true;
         if (!(other instanceof Vector2d)) return false;
         Vector2d o = (Vector2d) other;
-        return this.x == o.x && this.y == o.y;
+        return x == o.x && y == o.y;
     }
 
     @Override
