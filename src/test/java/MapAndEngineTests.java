@@ -4,7 +4,7 @@ import agh.ics.oop.SimulationEngine;
 import agh.ics.oop.Vector2d;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MapAndEngineTests {
     @Test
@@ -26,6 +26,10 @@ public class MapAndEngineTests {
                         " -1: -----------------------\r\n",
                 map.toString()
         );
+        assertTrue(map.isOccupied(new Vector2d(3, 5)));
+        assertTrue(map.isOccupied(new Vector2d(2, 0)));
+        assertFalse(map.isOccupied(new Vector2d(5, 0)));
+        assertEquals("v", map.objectAt(new Vector2d(2, 0)).toString());
     }
 
     @Test
@@ -49,5 +53,9 @@ public class MapAndEngineTests {
                         " -1: -----------------------\r\n",
                 map.toString()
         );
+        assertTrue(map.isOccupied(new Vector2d(5, 2)));
+        assertTrue(map.isOccupied(new Vector2d(5, 3)));
+        assertFalse(map.isOccupied(new Vector2d(5, 0)));
+        assertEquals("^", map.objectAt(new Vector2d(5, 2)).toString());
     }
 }
