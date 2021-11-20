@@ -16,9 +16,21 @@ public class GrassField extends AbstractWorldMap {
         range = (int) sqrt(count * 10);
         for (int i = 0; i < count; i++){
             Vector2d pos;
-            do{
+            while(true) {
                 pos = new Vector2d(rand.nextInt(range), rand.nextInt(range));
-            }while(grass.contains(pos));
+
+                boolean should_break = true;
+                for (var g: grass) {
+                    if (g.getPosition().equals(pos)){
+                        should_break = false;
+                        break;
+                    }
+                }
+
+                if(should_break){
+                    break;
+                }
+            }
 
             grass.add(new Grass(pos));
         }
