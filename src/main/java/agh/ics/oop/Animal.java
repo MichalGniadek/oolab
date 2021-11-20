@@ -33,6 +33,12 @@ public class Animal {
         return this.position.equals(position);
     }
 
+    // Trzeba dodać, ponieważ inaczej szukanie wielkości mapy w GrassField musialoby
+    // być wyszukiwaniem binarnym
+    public Vector2d getPosition(){
+        return this.position;
+    }
+
     @Override
     public String toString() {
         return switch (direction) {

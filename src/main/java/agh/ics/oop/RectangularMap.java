@@ -3,13 +3,12 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RectangularMap implements IWorldMap {
+public class RectangularMap extends AbstractWorldMap {
     Vector2d size;
-    List<Animal> animals;
 
     public RectangularMap(int width, int height) {
+        super();
         size = new Vector2d(width, height);
-        animals = new ArrayList<>();
     }
 
     @Override
@@ -20,22 +19,17 @@ public class RectangularMap implements IWorldMap {
     }
 
     @Override
-    public boolean place(Animal animal) {
-        return animals.add(animal);
+    protected Vector2d minSize() {
+        return new Vector2d(0, 0);
     }
 
     @Override
-    public boolean isOccupied(Vector2d position) {
-        return objectAt(position) != null;
+    protected Vector2d maxSize() {
+        return size;
     }
 
     @Override
     public Object objectAt(Vector2d position) {
         return animals.stream().filter(a -> a.isAt(position)).findAny().orElse(null);
-    }
-
-    @Override
-    public String toString() {
-        return new MapVisualizer(this).draw(new Vector2d(0, 0), size);
     }
 }
