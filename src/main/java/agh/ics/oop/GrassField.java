@@ -8,11 +8,10 @@ import static java.lang.Math.sqrt;
 
 public class GrassField extends AbstractWorldMap {
     private static final Random rand = new Random();
-    private final int range;
     private List<Grass> grass = new ArrayList<>();
 
     public GrassField(int count) {
-        range = (int) sqrt(count * 10);
+        int range = (int) sqrt(count * 10);
         for (int i = 0; i < count; i++) {
             Vector2d pos;
 
@@ -31,18 +30,24 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     protected Vector2d downLeftCorner() {
-        Vector2d corner = new Vector2d(0, 0);
+        Vector2d corner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
         for (var a : animals) {
             corner = corner.lowerLeft(a.getPosition());
+        }
+        for(var g : grass){
+            corner = corner.lowerLeft(g.getPosition());
         }
         return corner;
     }
 
     @Override
     protected Vector2d upRightCorner() {
-        Vector2d corner = new Vector2d(range, range);
+        Vector2d corner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
         for (var a : animals) {
             corner = corner.upperRight(a.getPosition());
+        }
+        for(var g : grass){
+            corner = corner.upperRight(g.getPosition());
         }
         return corner;
     }
