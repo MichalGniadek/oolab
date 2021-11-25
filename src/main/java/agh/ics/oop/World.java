@@ -10,7 +10,3 @@ public class World {
         System.out.println(map);
     }
 }
-
-// Notatki:
-// IMapElement i AbstractWorldMapElement są w tym wypadku niepotrzebne bo Grass i Animal
-// są wystarczjąco od siebie różne i tylko skomplikowało by je implementację GrassField.

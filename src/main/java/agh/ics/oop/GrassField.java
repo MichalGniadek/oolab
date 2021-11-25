@@ -8,29 +8,17 @@ import static java.lang.Math.sqrt;
 
 public class GrassField extends AbstractWorldMap {
     private static final Random rand = new Random();
-    private int range;
+    private final int range;
     private List<Grass> grass = new ArrayList<>();
 
     public GrassField(int count) {
-        super();
         range = (int) sqrt(count * 10);
-        for (int i = 0; i < count; i++){
+        for (int i = 0; i < count; i++) {
             Vector2d pos;
-            while(true) {
+
+            do {
                 pos = new Vector2d(rand.nextInt(range), rand.nextInt(range));
-
-                boolean should_break = true;
-                for (var g: grass) {
-                    if (g.getPosition().equals(pos)){
-                        should_break = false;
-                        break;
-                    }
-                }
-
-                if(should_break){
-                    break;
-                }
-            }
+            }while(grassAt(pos) != null);
 
             grass.add(new Grass(pos));
         }
@@ -38,42 +26,38 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return animals.stream().filter(a -> a.isAt(position)).findAny().orElse(null) == null;
+        return animalAt(position) == null;
     }
 
     @Override
-    protected Vector2d minSize() {
-        Vector2d min = new Vector2d(0, 0);
+    protected Vector2d downLeftCorner() {
+        Vector2d corner = new Vector2d(0, 0);
         for (var a : animals) {
-            var pos = a.getPosition();
-            min = new Vector2d(
-                    Math.min(min.x, pos.x),
-                    Math.min(min.y, pos.y)
-            );
+            corner = corner.lowerLeft(a.getPosition());
         }
-        return min;
+        return corner;
     }
 
     @Override
-    protected Vector2d maxSize() {
-        Vector2d max = new Vector2d(range, range);
+    protected Vector2d upRightCorner() {
+        Vector2d corner = new Vector2d(range, range);
         for (var a : animals) {
-            var pos = a.getPosition();
-            max = new Vector2d(
-                    Math.max(max.x, pos.x),
-                    Math.max(max.y, pos.y)
-            );
+            corner = corner.upperRight(a.getPosition());
         }
-        return max;
+        return corner;
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        var animal = animals.stream().filter(a -> a.isAt(position)).findAny().orElse(null);
+        var animal = animalAt(position);
         if (animal != null) {
             return animal;
         } else {
-            return grass.stream().filter(a -> a.getPosition().equals(position)).findAny().orElse(null);
+            return grassAt(position);
         }
+    }
+
+    public Object grassAt(Vector2d position) {
+        return grass.stream().filter(a -> a.getPosition().equals(position)).findAny().orElse(null);
     }
 }
