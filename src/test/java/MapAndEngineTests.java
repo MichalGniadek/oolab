@@ -85,4 +85,39 @@ public class MapAndEngineTests {
         assertTrue(map.isOccupied(new Vector2d(-4, 0)));
         assertEquals("<", map.objectAt(new Vector2d(-4, 0)).toString());
     }
+
+    @Test
+    void exceptions(){
+        var exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> OptionsParser.parse("r l f x f r".split(" "))
+        );
+        assertEquals("x is not a legal move.", exception.getMessage());
+
+        var exception2 = assertThrows(
+                IllegalArgumentException.class,
+                () -> OptionsParser.parse("r l f lala f r".split(" "))
+        );
+        assertEquals("lala is not a legal move.", exception2.getMessage());
+
+        var exception3 = assertThrows(
+                IllegalArgumentException.class,
+                () -> {
+                    var map = new GrassField(10);
+                    map.place(new Animal(map, new Vector2d(2, 2)));
+                    map.place(new Animal(map, new Vector2d(2, 2)));
+                }
+        );
+        assertEquals("Position (2,2) is already occupied.", exception3.getMessage());
+
+        var exception4 = assertThrows(
+                IllegalArgumentException.class,
+                () -> {
+                    var map = new RectangularMap(10, 20);
+                    map.place(new Animal(map, new Vector2d(3, 4)));
+                    map.place(new Animal(map, new Vector2d(3, 4)));
+                }
+        );
+        assertEquals("Position (3,4) is already occupied.", exception4.getMessage());
+    }
 }

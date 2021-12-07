@@ -1,17 +1,20 @@
 package agh.ics.oop;
 
-public class Animal {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Animal extends MapElement{
     private MapDirection direction = MapDirection.NORTH;
-    private Vector2d position;
     private final IWorldMap map;
+    private List<IPositionChangeObserver> observerList = new ArrayList<>();
 
     public Animal(IWorldMap map) {
         this(map, new Vector2d(2, 2));
     }
 
-    public Animal(IWorldMap map, Vector2d initialPosition) {
+    public Animal(IWorldMap map, Vector2d position) {
+        super(position);
         this.map = map;
-        this.position = initialPosition;
     }
 
     public void move(MoveDirection direction) {
@@ -23,20 +26,24 @@ public class Animal {
         }
     }
 
+    public void addObserver(IPositionChangeObserver observer){
+        observerList.add(observer);
+    }
+
+    public void removeObserver(IPositionChangeObserver observer){
+        observerList.remove(observer);
+    }
+
     private void tryMoveTo(Vector2d newPosition) {
         if (map.canMoveTo(newPosition)) {
+            Vector2d oldPosition = position;
             position = newPosition;
+            positionChanged(oldPosition, newPosition);
         }
     }
 
-    public boolean isAt(Vector2d position) {
-        return this.position.equals(position);
-    }
-
-    // Trzeba dodać, ponieważ inaczej szukanie wielkości mapy w GrassField musialoby
-    // być wyszukiwaniem binarnym
-    public Vector2d getPosition(){
-        return this.position;
+    private void positionChanged (Vector2d oldPosition, Vector2d newPosition) {
+        for(var o : observerList) o.positionChanged(oldPosition, newPosition);
     }
 
     @Override
@@ -47,5 +54,10 @@ public class Animal {
             case SOUTH -> "v";
             case WEST -> "<";
         };
+    }
+
+    @Override
+    protected int GetImportance() {
+        return 10;
     }
 }

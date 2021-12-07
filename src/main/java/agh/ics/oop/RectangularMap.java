@@ -26,6 +26,6 @@ public class RectangularMap extends AbstractWorldMap {
 
     @Override
     public Object objectAt(Vector2d position) {
-        return animalAt(position);
+        return animals.get(position);
     }
 }

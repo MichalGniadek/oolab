@@ -1,14 +1,13 @@
 package agh.ics.oop;
 
-public class Grass {
-    private final Vector2d position;
-
+public class Grass extends MapElement{
     public Grass(Vector2d position){
-        this.position = position;
+        super(position);
     }
 
-    public Vector2d getPosition(){
-        return this.position;
+    @Override
+    protected int GetImportance() {
+        return 0;
     }
 
     @Override
